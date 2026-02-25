@@ -1,82 +1,523 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    body {background-color: #e3f4d9}
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 26.4px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.6px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.2px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.6px 'Helvetica Neue'; color: #664702; -webkit-text-stroke: #664702}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.6px 'Helvetica Neue'; color: #664702; -webkit-text-stroke: #664702; background-color: #fff1c2}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #664702; -webkit-text-stroke: #664702; background-color: #000000; background-color: rgba(0, 0, 0, 0.078)}
-    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #878787; -webkit-text-stroke: #878787; background-color: #c1c1c1; min-height: 10.0px}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #878787; -webkit-text-stroke: #878787}
-    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.6px 'Helvetica Neue'; color: #77583a; -webkit-text-stroke: #77583a}
-    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #9a9a9a; -webkit-text-stroke: #9a9a9a}
-    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #2f4923; -webkit-text-stroke: #2f4923}
-    p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.2px 'Helvetica Neue'; color: #757575; -webkit-text-stroke: #757575}
-    p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #141414; -webkit-text-stroke: #141414; background-color: #d8cfbc; min-height: 15.0px}
-    p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #25692c; -webkit-text-stroke: #25692c}
-    p.p17 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #77583a; -webkit-text-stroke: #77583a}
-    p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #141414; -webkit-text-stroke: #141414; min-height: 15.0px}
-    p.p19 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #2f4923; -webkit-text-stroke: #2f4923}
-    p.p20 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #597e4c; -webkit-text-stroke: #597e4c}
-    p.p21 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.6px 'Helvetica Neue'; color: #878787; -webkit-text-stroke: #878787; min-height: 10.0px}
-    p.p22 {margin: 0.0px 0.0px 0.0px 0.0px; font: 30.0px 'Helvetica Neue'; color: #9a9a9a; -webkit-text-stroke: #9a9a9a}
-    p.p23 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #9a9a9a; -webkit-text-stroke: #9a9a9a}
-    p.p24 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff; background-color: #2f4923; min-height: 13.0px}
-    p.p25 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff; background-color: #2f4923}
-    span.s1 {font-kerning: none; background-color: #2f4923}
-    span.s2 {font-kerning: none; background-color: rgba(255, 255, 255, 0.15)}
-    span.s3 {font: 10.6px 'Helvetica Neue'; font-kerning: none; color: #664702; background-color: #fff1c2; -webkit-text-stroke: 0px #664702}
-    span.s4 {font-kerning: none; background-color: #fff1c2}
-    span.s5 {font-kerning: none}
-    span.s6 {font-kerning: none; background-color: #f2ece2}
-    span.s7 {font-kerning: none; background-color: #ffffff}
-    span.s8 {font-kerning: none; background-color: #fcfaf2}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frog & Toad Kids — Check-In</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --moss: #3d5a2e;
+    --sage: #6b8f5e;
+    --pond: #2c7a7b;
+    --lily: #e8f5e0;
+    --cream: #fdfbf5;
+    --mud: #8b6b4a;
+    --parchment: #f5f0e8;
+    --ink: #1a1a1a;
+    --checked: #2d7a3a;
+    --checked-bg: #e8f5ea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--lily); color: var(--ink); min-height: 100vh; }
+
+  /* ── Header ── */
+  .header {
+    background: var(--moss);
+    color: white;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  }
+  .header-title { display: flex; align-items: center; gap: 14px; }
+  .header-emoji { font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; line-height: 1.1; }
+  .header h1 span { display: block; font-size: 0.8rem; font-family: 'DM Mono', monospace; font-weight: 400; opacity: 0.7; margin-top: 2px; letter-spacing: 0.04em; }
+
+  /* Refresh button */
+  .refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .refresh-btn:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.6); }
+  .refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .refresh-icon { font-size: 1rem; display: inline-block; transition: transform 0.5s; }
+  .refresh-icon.spinning { animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Config banner */
+  .config-banner {
+    background: #fff3cd;
+    border-bottom: 2px solid #f0c040;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: #7a5800;
+  }
+  .config-banner strong { font-weight: 700; }
+  .config-banner code {
+    background: rgba(0,0,0,0.08);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+  }
+
+  /* Last fetched */
+  .fetch-meta {
+    background: var(--parchment);
+    border-bottom: 1px solid #ddd5c0;
+    padding: 7px 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: #999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .fetch-dot { width: 7px; height: 7px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
+  .fetch-dot.live { background: #4caf50; box-shadow: 0 0 0 2px rgba(76,175,80,0.25); }
+
+  /* Performance tabs */
+  .perf-bar {
+    background: var(--parchment);
+    border-bottom: 2px solid #ddd5c0;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .perf-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mud); white-space: nowrap; }
+  .perf-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .perf-tab {
+    background: white; border: 1.5px solid #ccc5b0; color: var(--ink);
+    font-family: 'DM Mono', monospace; font-size: 0.78rem;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .perf-tab:hover { border-color: var(--sage); background: var(--lily); }
+  .perf-tab.active { background: var(--moss); color: white; border-color: var(--moss); font-weight: 500; }
+
+  /* Stats */
+  .stats-bar {
+    background: white; border-bottom: 1.5px solid #e0d8c8;
+    padding: 12px 28px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; gap: 1px; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; line-height: 1; color: var(--moss); }
+  .stat-num.checked { color: var(--checked); }
+  .stat-num.remaining { color: var(--mud); }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; color: #888; }
+  .stat-divider { width: 1px; height: 36px; background: #e0d8c8; }
+  .progress-wrap { flex: 1; min-width: 140px; }
+  .progress-bar-bg { background: #e8e0d0; border-radius: 99px; height: 8px; overflow: hidden; }
+  .progress-bar-fill { background: linear-gradient(90deg, var(--sage), var(--moss)); height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+  .progress-pct { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--moss); font-weight: 500; margin-top: 3px; }
+
+  /* Search */
+  .search-bar { padding: 14px 28px; background: var(--cream); border-bottom: 1.5px solid #e0d8c8; }
+  .search-input-wrap { position: relative; max-width: 480px; }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--sage); pointer-events: none; }
+  .search-input {
+    width: 100%; padding: 11px 14px 11px 40px;
+    border: 2px solid #d0c8b4; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 1rem;
+    background: white; color: var(--ink); outline: none; transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(107,143,94,0.15); }
+  .search-input::placeholder { color: #aaa; }
+
+  /* Guest list */
+  .guest-list-wrap { padding: 16px 28px 40px; }
+  .guest-count-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 10px; }
+  .guest-list { display: flex; flex-direction: column; gap: 6px; max-width: 720px; }
+
+  .guest-row {
+    display: flex; align-items: center; gap: 12px;
+    background: white; border: 1.5px solid #e4dccb; border-radius: 10px;
+    padding: 14px 16px; cursor: pointer; transition: all 0.15s;
+  }
+  .guest-row:hover { border-color: var(--sage); box-shadow: 0 2px 8px rgba(0,0,0,0.06); transform: translateY(-1px); }
+  .guest-row.checked-in { background: var(--checked-bg); border-color: #a8d4aa; }
+  .guest-row.checked-in:hover { border-color: var(--checked); }
+
+  .check-btn {
+    width: 34px; height: 34px; border-radius: 50%; border: 2px solid #ccc;
+    background: white; display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; cursor: pointer; flex-shrink: 0; transition: all 0.18s; color: transparent;
+  }
+  .guest-row.checked-in .check-btn { background: var(--checked); border-color: var(--checked); color: white; font-size: 0.9rem; }
+  .check-btn:hover { border-color: var(--sage); background: var(--lily); }
+
+  .guest-info { flex: 1; min-width: 0; }
+  .guest-name { font-weight: 600; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .guest-row.checked-in .guest-name { color: var(--checked); }
+  .guest-email { font-family: 'DM Mono', monospace; font-size: 0.71rem; color: #999; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .ticket-badge {
+    background: var(--parchment); border: 1.5px solid #ddd5c0; border-radius: 20px;
+    padding: 4px 10px; font-family: 'DM Mono', monospace; font-size: 0.78rem;
+    font-weight: 500; color: var(--mud); white-space: nowrap; flex-shrink: 0;
+  }
+  .guest-row.checked-in .ticket-badge { background: #d0ecd3; border-color: #a8d4aa; color: var(--checked); }
+
+  .checked-time { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--checked); white-space: nowrap; flex-shrink: 0; }
+
+  /* Loading / error states */
+  .loading-state, .error-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 20px; gap: 12px; color: #aaa;
+  }
+  .loading-state .emoji, .error-state .emoji { font-size: 2.5rem; }
+  .error-state { color: #c0392b; }
+  .error-state p { font-size: 0.9rem; max-width: 400px; text-align: center; line-height: 1.5; }
+  .no-results { text-align: center; padding: 48px 20px; color: #aaa; font-size: 0.95rem; }
+  .no-results .emoji { font-size: 2.5rem; margin-bottom: 8px; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--moss); color: white; padding: 12px 24px;
+    border-radius: 10px; font-weight: 600; font-size: 0.92rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25); transition: transform 0.3s ease;
+    z-index: 999; white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.undo { background: var(--mud); }
+
+  @media (max-width: 600px) {
+    .header, .perf-bar, .stats-bar, .search-bar, .guest-list-wrap, .fetch-meta, .config-banner { padding-left: 16px; padding-right: 16px; }
+    .guest-email { display: none; }
+  }
+</style>
 </head>
 <body>
-<p class="p1"><span class="s1">🐸</span></p>
-<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1">Frog &amp; Toad Kids</span></h1>
-<p class="p3"><span class="s1">Guest Check-In Dashboard</span></p>
-<p class="p4"><span class="s2">↻</span></p>
-<p class="p5"><span class="s2">Refresh from Sheet </span><span class="s3">⚙️</span></p>
-<p class="p6"><span class="s4">Setup needed:</span></p>
-<p class="p7"><span class="s5">Open this file in a text editor and replace</span></p>
-<p class="p8"><span class="s5">YOUR_APPS_SCRIPT_URL</span></p>
-<p class="p7"><span class="s5">and</span></p>
-<p class="p8"><span class="s5">YOUR_SECRET_KEY</span></p>
-<p class="p7"><span class="s5">with your deployed Apps Script values. See the setup guide below.</span></p>
-<p class="p9"><span class="s5"></span><br></p>
-<p class="p10"><span class="s6">Not yet loaded from sheet</span></p>
-<p class="p11"><span class="s6">PERFORMANCE:</span></p>
-<p class="p12"><span class="s6">Loading…</span></p>
-<p class="p13"><span class="s7">—</span></p>
-<p class="p14"><span class="s7">TOTAL GUESTS</span></p>
-<p class="p15"><span class="s5"></span><br></p>
-<p class="p13"><span class="s7">—</span></p>
-<p class="p14"><span class="s7">TOTAL TICKETS</span></p>
-<p class="p15"><span class="s5"></span><br></p>
-<p class="p16"><span class="s7">0</span></p>
-<p class="p14"><span class="s7">CHECKED IN</span></p>
-<p class="p15"><span class="s5"></span><br></p>
-<p class="p17"><span class="s7">—</span></p>
-<p class="p14"><span class="s7">REMAINING</span></p>
-<p class="p15"><span class="s5"></span><br></p>
-<p class="p18"><span class="s5"></span><br></p>
-<p class="p19"><span class="s7">0% arrived</span></p>
-<p class="p20"><span class="s8">🔍</span></p>
-<p class="p21"><span class="s5"></span><br></p>
-<p class="p22"><span class="s5">🌿</span></p>
-<p class="p23"><span class="s5">Click "Refresh from Sheet" to load guests.</span></p>
-<p class="p24"><span class="s5"></span><br></p>
-<p class="p25"><span class="s5">frogtoad2026</span></p>
+
+<!-- ── Header ── -->
+<div class="header">
+  <div class="header-title">
+    <span class="header-emoji">🐸</span>
+    <h1>Frog &amp; Toad Kids
+      <span>Guest Check-In Dashboard</span>
+    </h1>
+  </div>
+  <button class="refresh-btn" id="refreshBtn" onclick="fetchData()">
+    <span class="refresh-icon" id="refreshIcon">↻</span>
+    Refresh from Sheet
+  </button>
+</div>
+
+<!-- Config warning (shown until URL is set) -->
+<div class="config-banner" id="configBanner">
+  ⚙️ <strong>Setup needed:</strong> Open this file in a text editor and replace <code>YOUR_APPS_SCRIPT_URL</code> and <code>YOUR_SECRET_KEY</code> with your deployed Apps Script values. See the setup guide below.
+</div>
+
+<!-- Last fetched indicator -->
+<div class="fetch-meta" id="fetchMeta">
+  <span class="fetch-dot" id="fetchDot"></span>
+  <span id="fetchMetaText">Not yet loaded from sheet</span>
+</div>
+
+<!-- Performance tabs -->
+<div class="perf-bar">
+  <span class="perf-label">Performance:</span>
+  <div class="perf-tabs" id="perfTabs">
+    <span style="font-size:0.82rem;color:#aaa;font-style:italic;">Loading…</span>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat"><span class="stat-num" id="statTotal">—</span><span class="stat-label">Total Guests</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num" id="statTickets">—</span><span class="stat-label">Total Tickets</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num checked" id="statIn">0</span><span class="stat-label">Checked In</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num remaining" id="statLeft">—</span><span class="stat-label">Remaining</span></div>
+  <div class="stat-divider"></div>
+  <div class="progress-wrap stat">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-pct" id="progressPct">0% arrived</div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="search-bar">
+  <div class="search-input-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search guest name…" autocomplete="off" />
+  </div>
+</div>
+
+<!-- Guest list -->
+<div class="guest-list-wrap">
+  <div class="guest-count-label" id="guestCountLabel"></div>
+  <div class="guest-list" id="guestList">
+    <div class="loading-state"><div class="emoji">🌿</div><div>Click "Refresh from Sheet" to load guests.</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  CONFIGURATION — fill these in after deploying the script
+// ══════════════════════════════════════════════════════════
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0TewBNFM7-q04tjC8kC8F_0GiAH4u-nqVWBZDiFBUVgnLF_PbNzpEAVAIJJ_yIbeE/exec";
+const SECRET_KEY      = "frogtoad2026";       // must match Code.gs
+// ══════════════════════════════════════════════════════════
+
+// State
+let guests = [];           // { id, name, email, performance, tickets, checked_in, checkedTime }
+let performances = [];
+let currentPerf = null;
+let searchQuery = '';
+let toastTimer = null;
+let dataLoaded = false;
+
+// Check if configured
+const isConfigured = () =>
+  APPS_SCRIPT_URL !== "YOUR_APPS_SCRIPT_URL" && SECRET_KEY !== "YOUR_SECRET_KEY";
+
+// Hide config banner if set up
+if (isConfigured()) {
+  document.getElementById('configBanner').style.display = 'none';
+}
+
+// ── Fetch from Apps Script ──────────────────────────────────
+async function fetchData() {
+  if (!isConfigured()) {
+    showToast("⚠️ Please configure the Apps Script URL first", true);
+    return;
+  }
+
+  const btn  = document.getElementById('refreshBtn');
+  const icon = document.getElementById('refreshIcon');
+  btn.disabled = true;
+  icon.classList.add('spinning');
+
+  try {
+    const url = `${APPS_SCRIPT_URL}?key=${encodeURIComponent(SECRET_KEY)}`;
+    const res  = await fetch(url);
+    const data = await res.json();
+
+    if (data.error) throw new Error(data.error);
+
+    // Merge: preserve checked-in state for guests already checked in
+    const checkedMap = {};
+    guests.forEach(g => {
+      if (g.checked_in) {
+        const key = `${g.name.toLowerCase()}|${g.performance}`;
+        checkedMap[key] = { checked_in: true, checkedTime: g.checkedTime };
+      }
+    });
+
+    guests = data.guests.map((g, i) => {
+      const key   = `${g.name.toLowerCase()}|${g.performance}`;
+      const saved = checkedMap[key] || {};
+      return { ...g, id: i, checked_in: saved.checked_in || false, checkedTime: saved.checkedTime || null };
+    });
+
+    performances = data.performances;
+
+    // Keep current performance selection if still valid, else pick first
+    if (!currentPerf || !performances.includes(currentPerf)) {
+      currentPerf = performances[0] || null;
+    }
+
+    dataLoaded = true;
+    buildPerfTabs();
+    updateFetchMeta(data.fetchedAt);
+    render();
+    showToast(`✓ Loaded ${guests.length} guest entries from sheet`, false);
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('guestList').innerHTML = `
+      <div class="error-state">
+        <div class="emoji">⚠️</div>
+        <p><strong>Couldn't reach the sheet.</strong><br>${err.message}<br><br>
+        Make sure your Apps Script is deployed as "Anyone" can access (even anonymous), and the URL and key are correct.</p>
+      </div>`;
+    showToast("❌ Failed to load from sheet", true);
+  } finally {
+    btn.disabled = false;
+    icon.classList.remove('spinning');
+  }
+}
+
+function updateFetchMeta(isoStr) {
+  const dot  = document.getElementById('fetchDot');
+  const text = document.getElementById('fetchMetaText');
+  dot.classList.add('live');
+  const d = new Date(isoStr);
+  text.textContent = `Last fetched from Google Sheet at ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})}`;
+}
+
+// ── Build performance tab buttons ──────────────────────────
+function buildPerfTabs() {
+  const container = document.getElementById('perfTabs');
+  container.innerHTML = '';
+  performances.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'perf-tab' + (p === currentPerf ? ' active' : '');
+    btn.textContent = p;
+    btn.addEventListener('click', () => {
+      currentPerf = p;
+      document.querySelectorAll('.perf-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      render();
+    });
+    container.appendChild(btn);
+  });
+}
+
+// ── Search ─────────────────────────────────────────────────
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase();
+  render();
+});
+
+// ── Render ─────────────────────────────────────────────────
+function getPerfGuests()     { return guests.filter(g => g.performance === currentPerf); }
+function getFilteredGuests() {
+  return getPerfGuests()
+    .filter(g => !searchQuery || g.name.toLowerCase().includes(searchQuery))
+    .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+}
+
+function render() {
+  if (!dataLoaded || !currentPerf) return;
+
+  const perfGuests   = getPerfGuests();
+  const totalGuests  = perfGuests.length;
+  const totalTickets = perfGuests.reduce((s, g) => s + g.tickets, 0);
+  const checkedIn    = perfGuests.filter(g => g.checked_in).length;
+  const checkedTix   = perfGuests.filter(g => g.checked_in).reduce((s, g) => s + g.tickets, 0);
+  const pct          = totalGuests > 0 ? Math.round((checkedIn / totalGuests) * 100) : 0;
+
+  document.getElementById('statTotal').textContent   = totalGuests;
+  document.getElementById('statTickets').textContent = totalTickets;
+  document.getElementById('statIn').textContent      = checkedIn;
+  document.getElementById('statLeft').textContent    = totalGuests - checkedIn;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = `${pct}% arrived (${checkedTix} of ${totalTickets} tickets)`;
+
+  const filtered = getFilteredGuests();
+  const list     = document.getElementById('guestList');
+  const label    = document.getElementById('guestCountLabel');
+
+  label.textContent = searchQuery
+    ? `${filtered.length} result${filtered.length !== 1 ? 's' : ''} for "${searchQuery}"`
+    : `${totalGuests} guest${totalGuests !== 1 ? 's' : ''} · ${totalTickets} tickets`;
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="no-results"><div class="emoji">🔍</div>No guests found matching "${searchQuery}"</div>`;
+    return;
+  }
+
+  list.innerHTML = '';
+  filtered.forEach(g => {
+    const row = document.createElement('div');
+    row.className = 'guest-row' + (g.checked_in ? ' checked-in' : '');
+    row.innerHTML = `
+      <button class="check-btn" title="${g.checked_in ? 'Undo check-in' : 'Check in'}">✓</button>
+      <div class="guest-info">
+        <div class="guest-name">${capitalize(g.name)}</div>
+        <div class="guest-email">${g.email}</div>
+      </div>
+      <span class="ticket-badge">🎟 ${g.tickets} ticket${g.tickets !== 1 ? 's' : ''}</span>
+      ${g.checked_in && g.checkedTime ? `<span class="checked-time">${g.checkedTime}</span>` : ''}
+    `;
+    row.querySelector('.check-btn').addEventListener('click', e => { e.stopPropagation(); toggleCheckIn(g.id); });
+    row.addEventListener('click', () => toggleCheckIn(g.id));
+    list.appendChild(row);
+  });
+}
+
+function toggleCheckIn(id) {
+  const g = guests.find(x => x.id === id);
+  g.checked_in = !g.checked_in;
+  g.checkedTime = g.checked_in ? new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : null;
+  if (g.checked_in) showToast(`✓ ${capitalize(g.name)} checked in — ${g.tickets} ticket${g.tickets !== 1 ? 's' : ''}`, false);
+  else              showToast(`↩ ${capitalize(g.name)} check-in undone`, true);
+  render();
+}
+
+function capitalize(name) {
+  return name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function showToast(msg, isUndo) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast' + (isUndo ? ' undo' : '') + ' show';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+</script>
+
+<!-- ══════════════════════════════════════════════════════════
+     SETUP GUIDE (remove this section after setup is complete)
+═══════════════════════════════════════════════════════════════
+
+STEP 1 — Add the Apps Script to your Google Sheet
+  1. Open your Google Sheet
+  2. Click Extensions > Apps Script
+  3. Delete all existing code and paste in the contents of Code.gs
+  4. Set SHEET_NAME to match your tab name (shown at the bottom of the sheet)
+  5. Set SECRET_KEY to any private phrase you like (e.g. "frogtoad2026")
+  6. Click Save (💾)
+
+STEP 2 — Deploy as a Web App
+  1. Click Deploy > New deployment
+  2. Click the gear icon ⚙️ next to "Type" and choose "Web app"
+  3. Set Description: "Check-in API"
+  4. Execute as: "Me"
+  5. Who has access: "Anyone" (this is safe — your secret key protects the data)
+  6. Click Deploy
+  7. Copy the Web app URL that appears
+
+STEP 3 — Configure this dashboard file
+  Open this HTML file in a text editor and find these two lines near the top of the <script> section:
+
+    const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL";
+    const SECRET_KEY      = "YOUR_SECRET_KEY";
+
+  Replace the placeholder values with your Web app URL and the same secret key you used in Code.gs.
+  Save the file.
+
+STEP 4 — Done!
+  Open the dashboard in a browser and click "Refresh from Sheet".
+  New JotForm submissions will appear every time you click the refresh button.
+
+NOTE: If you ever need to update the Apps Script code, go to
+  Deploy > Manage deployments > Edit > create a new version.
+
+══════════════════════════════════════════════════════════ -->
+
 </body>
 </html>
+
