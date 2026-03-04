@@ -233,8 +233,8 @@
 // ══════════════════════════════════════════════
 //  CONFIGURATION — set these to your values
 // ══════════════════════════════════════════════
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzFBDX1ojKoJeEvCfOVuwNLuAGTk9wHNbpUghJrNDfE1FAO_wldzQA1VF7L79HPpy8J/exec";
-const SECRET_KEY      = "frogtoad2026";
+const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL";
+const SECRET_KEY      = "YOUR_SECRET_KEY";
 // ══════════════════════════════════════════════
 
 // State
@@ -350,9 +350,10 @@ document.getElementById('searchInput').addEventListener('input', e => {
 // ── Render ─────────────────────────────────────────────────
 function getPerfGuests()     { return guests.filter(g => g.performance === currentPerf); }
 function getFilteredGuests() {
+  const lastName = name => name.trim().split(' ').slice(-1)[0].toLowerCase();
   return getPerfGuests()
     .filter(g => !searchQuery || g.name.toLowerCase().includes(searchQuery))
-    .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+    .sort((a, b) => lastName(a.name).localeCompare(lastName(b.name)));
 }
 
 function render() {
