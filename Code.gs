@@ -4,7 +4,7 @@
 // ============================================================
 
 // ---- CONFIGURE THESE TWO VALUES ----
-const SHEET_NAME   = "Form Responses 1"; // Your JotForm responses tab
+const SHEET_NAME   = "Form Responses"; // Your JotForm responses tab
 const SECRET_KEY   = "frogtoad2026";     // Must match your dashboard HTML
 // ------------------------------------
 
