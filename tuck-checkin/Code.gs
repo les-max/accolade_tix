@@ -135,6 +135,22 @@ function getOrCreateCheckinSheet(ss) {
   return sheet;
 }
 
+// ── Debug: run this from the Apps Script editor to inspect raw data ─
+function debugSheet() {
+  const ss    = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) { console.log("SHEET NOT FOUND: " + SHEET_NAME); return; }
+  const data  = sheet.getDataRange().getValues();
+  console.log("Row count (including header): " + data.length);
+  if (data.length > 1) {
+    console.log("Headers: " + JSON.stringify(data[0]));
+    console.log("Row 2 raw: " + JSON.stringify(data[1]));
+    console.log("Row 2 col E (index 4): " + data[1][4]);
+  } else {
+    console.log("Sheet has no data rows beyond the header.");
+  }
+}
+
 function json(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
