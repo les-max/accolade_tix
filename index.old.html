@@ -3,189 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tuck Everlasting — Check-In</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Frog & Toad Kids — Check-In</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:        #0e0d14;
-    --deep:       #13111e;
-    --layer:      #1c1929;
-    --border:     rgba(255,255,255,0.07);
-    --gold:       #d4a853;
-    --gold-light: #e8c97a;
-    --teal:       #3d9e8c;
-    --cream:      #f5f0e8;
-    --warm-white: #faf7f2;
-    --muted:      #a0a0b5;
-    --muted-dim:  rgba(160,160,181,0.5);
-    --checked:    #3d9e8c;
-    --checked-bg: rgba(61,158,140,0.12);
+    --moss: #3d5a2e;
+    --sage: #6b8f5e;
+    --lily: #e8f5e0;
+    --cream: #fdfbf5;
+    --mud: #8b6b4a;
+    --parchment: #f5f0e8;
+    --ink: #1a1a1a;
+    --checked: #2d7a3a;
+    --checked-bg: #e8f5ea;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', sans-serif; background: var(--ink); color: var(--warm-white); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--lily); color: var(--ink); min-height: 100vh; }
 
   /* Header */
   .header {
-    background: var(--deep);
-    border-bottom: 1px solid rgba(212,168,83,0.25);
+    background: var(--moss); color: white;
     padding: 18px 28px; display: flex; align-items: center;
     justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
   }
-  .header-title { display: flex; align-items: center; gap: 16px; }
-  .header-icon {
-    width: 44px; height: 44px; border-radius: 50%;
-    border: 1px solid rgba(212,168,83,0.4);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; flex-shrink: 0;
-  }
-  .header h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem; letter-spacing: 0.15em; color: var(--gold); line-height: 1;
-  }
-  .header h1 span {
-    display: block; font-family: 'Inter', sans-serif;
-    font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--muted); margin-top: 4px;
-  }
+  .header-title { display: flex; align-items: center; gap: 14px; }
+  .header-emoji { font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; line-height: 1.1; }
+  .header h1 span { display: block; font-size: 0.8rem; font-family: 'DM Mono', monospace; font-weight: 400; opacity: 0.7; margin-top: 2px; letter-spacing: 0.04em; }
 
   .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
   .btn {
     display: flex; align-items: center; gap: 7px;
-    background: rgba(212,168,83,0.1); border: 1px solid rgba(212,168,83,0.35);
-    color: var(--gold); font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600;
-    padding: 8px 16px; border-radius: 2px; cursor: pointer; transition: all 0.18s;
-    white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase;
+    background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.35);
+    color: white; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+    padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.18s; white-space: nowrap;
   }
-  .btn:hover { background: rgba(212,168,83,0.18); border-color: var(--gold); }
-  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.6); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn.saving { background: rgba(255,255,255,0.08); }
 
   .refresh-icon { font-size: 1rem; display: inline-block; }
   .refresh-icon.spinning { animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Sync bar */
+  /* Sync indicator */
   .sync-bar {
-    background: var(--layer); border-bottom: 1px solid var(--border);
-    padding: 7px 28px; font-family: 'Inter', monospace; font-size: 0.68rem;
-    color: var(--muted); display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    letter-spacing: 0.04em;
+    background: var(--parchment); border-bottom: 1px solid #ddd5c0;
+    padding: 7px 28px; font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    color: #999; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   }
-  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #444; flex-shrink: 0; transition: background 0.3s; }
-  .sync-dot.live    { background: var(--teal); box-shadow: 0 0 0 2px rgba(61,158,140,0.25); }
-  .sync-dot.saving  { background: var(--gold); box-shadow: 0 0 0 2px rgba(212,168,83,0.25); animation: pulse 1s infinite; }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #ccc; flex-shrink: 0; transition: background 0.3s; }
+  .sync-dot.live    { background: #4caf50; box-shadow: 0 0 0 2px rgba(76,175,80,0.25); }
+  .sync-dot.saving  { background: #ff9800; box-shadow: 0 0 0 2px rgba(255,152,0,0.25); animation: pulse 1s infinite; }
   .sync-dot.error   { background: #e53935; }
   @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 
   /* Performance tabs */
   .perf-bar {
-    background: var(--deep); border-bottom: 1px solid var(--border);
+    background: var(--parchment); border-bottom: 2px solid #ddd5c0;
     padding: 14px 28px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   }
-  .perf-label {
-    font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--muted); white-space: nowrap;
-  }
+  .perf-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mud); white-space: nowrap; }
   .perf-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
   .perf-tab {
-    background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--muted);
-    font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500;
-    letter-spacing: 0.05em; padding: 6px 14px; border-radius: 2px;
-    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    background: white; border: 1.5px solid #ccc5b0; color: var(--ink);
+    font-family: 'DM Mono', monospace; font-size: 0.78rem;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
   }
-  .perf-tab:hover { border-color: rgba(212,168,83,0.4); color: var(--gold-light); }
-  .perf-tab.active { background: var(--gold); color: var(--ink); border-color: var(--gold); font-weight: 600; }
+  .perf-tab:hover { border-color: var(--sage); background: var(--lily); }
+  .perf-tab.active { background: var(--moss); color: white; border-color: var(--moss); font-weight: 500; }
 
   /* Stats */
   .stats-bar {
-    background: var(--layer); border-bottom: 1px solid var(--border);
-    padding: 14px 28px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    background: white; border-bottom: 1.5px solid #e0d8c8;
+    padding: 12px 28px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
   }
-  .stat { display: flex; flex-direction: column; gap: 2px; }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--warm-white); }
-  .stat-num.checked   { color: var(--teal); }
-  .stat-num.remaining { color: var(--muted); }
-  .stat-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 500; }
-  .stat-divider { width: 1px; height: 36px; background: var(--border); }
+  .stat { display: flex; flex-direction: column; gap: 1px; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; line-height: 1; color: var(--moss); }
+  .stat-num.checked  { color: var(--checked); }
+  .stat-num.remaining{ color: var(--mud); }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; color: #888; }
+  .stat-divider { width: 1px; height: 36px; background: #e0d8c8; }
   .progress-wrap { flex: 1; min-width: 140px; }
-  .progress-bar-bg { background: rgba(255,255,255,0.07); border-radius: 99px; height: 6px; overflow: hidden; }
-  .progress-bar-fill { background: linear-gradient(90deg, var(--teal), var(--gold)); height: 100%; border-radius: 99px; transition: width 0.4s ease; }
-  .progress-pct { font-size: 0.68rem; color: var(--muted); font-weight: 500; margin-top: 4px; letter-spacing: 0.04em; }
+  .progress-bar-bg { background: #e8e0d0; border-radius: 99px; height: 8px; overflow: hidden; }
+  .progress-bar-fill { background: linear-gradient(90deg, var(--sage), var(--moss)); height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+  .progress-pct { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--moss); font-weight: 500; margin-top: 3px; }
 
   /* Search */
-  .search-bar { padding: 14px 28px; background: var(--deep); border-bottom: 1px solid var(--border); }
+  .search-bar { padding: 14px 28px; background: var(--cream); border-bottom: 1.5px solid #e0d8c8; }
   .search-input-wrap { position: relative; max-width: 480px; }
-  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--muted); pointer-events: none; }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--sage); pointer-events: none; }
   .search-input {
-    width: 100%; padding: 11px 14px 11px 40px;
-    border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
-    font-family: 'Inter', sans-serif; font-size: 0.95rem;
-    background: var(--layer); color: var(--warm-white); outline: none; transition: border-color 0.2s;
+    width: 100%; padding: 11px 14px 11px 40px; border: 2px solid #d0c8b4; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 1rem; background: white; color: var(--ink); outline: none; transition: border-color 0.2s;
   }
-  .search-input:focus { border-color: rgba(212,168,83,0.5); box-shadow: 0 0 0 3px rgba(212,168,83,0.08); }
-  .search-input::placeholder { color: var(--muted-dim); }
+  .search-input:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(107,143,94,0.15); }
+  .search-input::placeholder { color: #aaa; }
 
   /* Guest list */
   .guest-list-wrap { padding: 16px 28px 40px; }
-  .guest-count-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+  .guest-count-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 10px; }
   .guest-list { display: flex; flex-direction: column; gap: 6px; max-width: 720px; }
 
   .guest-row {
-    display: flex; align-items: center; gap: 12px;
-    background: var(--layer); border: 1px solid var(--border);
-    border-radius: 2px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px; background: white;
+    border: 1.5px solid #e4dccb; border-radius: 10px; padding: 14px 16px;
     cursor: pointer; transition: all 0.15s; position: relative;
   }
-  .guest-row:hover { border-color: rgba(212,168,83,0.3); box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
-  .guest-row.checked-in { background: var(--checked-bg); border-color: rgba(61,158,140,0.3); }
-  .guest-row.checked-in:hover { border-color: var(--teal); }
-  .guest-row.syncing { opacity: 0.6; pointer-events: none; }
+  .guest-row:hover { border-color: var(--sage); box-shadow: 0 2px 8px rgba(0,0,0,0.06); transform: translateY(-1px); }
+  .guest-row.checked-in { background: var(--checked-bg); border-color: #a8d4aa; }
+  .guest-row.checked-in:hover { border-color: var(--checked); }
+  .guest-row.syncing { opacity: 0.7; pointer-events: none; }
 
   .check-btn {
-    width: 34px; height: 34px; border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.15);
-    background: transparent; display: flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%; border: 2px solid #ccc;
+    background: white; display: flex; align-items: center; justify-content: center;
     font-size: 1rem; cursor: pointer; flex-shrink: 0; transition: all 0.18s; color: transparent;
   }
-  .guest-row.checked-in .check-btn { background: var(--teal); border-color: var(--teal); color: white; font-size: 0.9rem; }
-  .check-btn:hover { border-color: var(--gold); }
+  .guest-row.checked-in .check-btn { background: var(--checked); border-color: var(--checked); color: white; font-size: 0.9rem; }
+  .check-btn:hover { border-color: var(--sage); background: var(--lily); }
 
   .guest-info { flex: 1; min-width: 0; }
-  .guest-name { font-weight: 600; font-size: 0.97rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--warm-white); }
-  .guest-row.checked-in .guest-name { color: var(--teal); }
-  .guest-email { font-size: 0.7rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.02em; }
+  .guest-name { font-weight: 600; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .guest-row.checked-in .guest-name { color: var(--checked); }
+  .guest-email { font-family: 'DM Mono', monospace; font-size: 0.71rem; color: #999; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .ticket-badge {
-    background: rgba(212,168,83,0.08); border: 1px solid rgba(212,168,83,0.2);
-    border-radius: 2px; padding: 4px 10px; font-size: 0.75rem; font-weight: 600;
-    color: var(--gold); white-space: nowrap; flex-shrink: 0; letter-spacing: 0.04em;
+    background: var(--parchment); border: 1.5px solid #ddd5c0; border-radius: 20px;
+    padding: 4px 10px; font-family: 'DM Mono', monospace; font-size: 0.78rem;
+    font-weight: 500; color: var(--mud); white-space: nowrap; flex-shrink: 0;
   }
-  .guest-row.checked-in .ticket-badge { background: rgba(61,158,140,0.1); border-color: rgba(61,158,140,0.3); color: var(--teal); }
-  .checked-time { font-size: 0.65rem; color: var(--teal); white-space: nowrap; flex-shrink: 0; letter-spacing: 0.03em; }
+  .guest-row.checked-in .ticket-badge { background: #d0ecd3; border-color: #a8d4aa; color: var(--checked); }
+  .checked-time { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--checked); white-space: nowrap; flex-shrink: 0; }
 
   /* States */
   .loading-state, .error-state {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 60px 20px; gap: 12px; color: var(--muted);
+    padding: 60px 20px; gap: 12px; color: #aaa;
   }
-  .loading-state .icon, .error-state .icon { font-size: 2.5rem; }
-  .error-state { color: #e57373; }
-  .error-state p { font-size: 0.9rem; max-width: 400px; text-align: center; line-height: 1.6; }
-  .no-results { text-align: center; padding: 48px 20px; color: var(--muted); font-size: 0.95rem; }
-  .no-results .icon { font-size: 2.5rem; margin-bottom: 8px; }
+  .loading-state .emoji, .error-state .emoji { font-size: 2.5rem; }
+  .error-state { color: #c0392b; }
+  .error-state p { font-size: 0.9rem; max-width: 400px; text-align: center; line-height: 1.5; }
+  .no-results { text-align: center; padding: 48px 20px; color: #aaa; font-size: 0.95rem; }
+  .no-results .emoji { font-size: 2.5rem; margin-bottom: 8px; }
 
   /* Toast */
   .toast {
     position: fixed; bottom: 28px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: var(--teal); color: white; padding: 12px 24px;
-    border-radius: 2px; font-weight: 600; font-size: 0.88rem;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.5); transition: transform 0.3s ease;
-    z-index: 999; white-space: nowrap; letter-spacing: 0.04em;
+    background: var(--moss); color: white; padding: 12px 24px;
+    border-radius: 10px; font-weight: 600; font-size: 0.92rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25); transition: transform 0.3s ease;
+    z-index: 999; white-space: nowrap;
   }
   .toast.show  { transform: translateX(-50%) translateY(0); }
-  .toast.undo  { background: var(--layer); border: 1px solid var(--border); }
+  .toast.undo  { background: var(--mud); }
   .toast.error { background: #c0392b; }
 
   @media (max-width: 600px) {
@@ -199,8 +173,8 @@
 <!-- Header -->
 <div class="header">
   <div class="header-title">
-    <div class="header-icon">🌲</div>
-    <h1>Tuck Everlasting <span>Guest Check-In Dashboard</span></h1>
+    <span class="header-emoji">🐸</span>
+    <h1>Frog &amp; Toad Kids <span>Guest Check-In Dashboard</span></h1>
   </div>
   <div class="header-actions">
     <button class="btn" id="refreshBtn" onclick="fetchData()">
@@ -217,8 +191,8 @@
 
 <!-- Performance tabs -->
 <div class="perf-bar">
-  <span class="perf-label">Performance</span>
-  <div class="perf-tabs" id="perfTabs"><span style="font-size:0.82rem;color:var(--muted);font-style:italic;">Loading…</span></div>
+  <span class="perf-label">Performance:</span>
+  <div class="perf-tabs" id="perfTabs"><span style="font-size:0.82rem;color:#aaa;font-style:italic;">Loading…</span></div>
 </div>
 
 <!-- Stats -->
@@ -249,7 +223,7 @@
 <div class="guest-list-wrap">
   <div class="guest-count-label" id="guestCountLabel"></div>
   <div class="guest-list" id="guestList">
-    <div class="loading-state"><div class="icon">🌲</div><div>Click "Refresh from Sheet" to load guests.</div></div>
+    <div class="loading-state"><div class="emoji">🌿</div><div>Click "Refresh from Sheet" to load guests.</div></div>
   </div>
 </div>
 
@@ -257,20 +231,22 @@
 
 <script>
 // ══════════════════════════════════════════════
-//  CONFIGURATION
+//  CONFIGURATION — set these to your values
 // ══════════════════════════════════════════════
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyyVY6jUeEgRBX39x49Dg1vRZ51LKEPyOOwFFY6PwZ-Y4mXCe1hCLD5OVS7qjF9KZ4mXQ/exec";
-const SECRET_KEY      = "tuckeverlasting2026";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKghpzC0RFTqCI1At9uxUQLelJrIU68APspGuKqTbcuMF0sexoW-BYu1nVjNC4N16D/exec";
+const SECRET_KEY      = "frogtoad2026";
 // ══════════════════════════════════════════════
 
+// State
 let guests       = [];
 let performances = [];
 let currentPerf  = null;
 let searchQuery  = '';
 let toastTimer   = null;
 let dataLoaded   = false;
-let pendingSaves = 0;
+let pendingSaves = 0; // track in-flight writes
 
+// ── Fetch guests from sheet ────────────────────────────────
 async function fetchData() {
   const btn  = document.getElementById('refreshBtn');
   const icon = document.getElementById('refreshIcon');
@@ -295,7 +271,7 @@ async function fetchData() {
     render();
 
     const t = new Date(data.fetchedAt);
-    setSyncStatus('live', `Synced at ${t.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})} · ${guests.length} entries`);
+    setSyncStatus('live', `Synced with sheet at ${t.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})} · ${guests.length} entries`);
     showToast(`✓ Loaded ${guests.length} guest entries`, false);
 
   } catch (err) {
@@ -304,9 +280,9 @@ async function fetchData() {
     showToast('❌ Failed to load from sheet', true, 'error');
     document.getElementById('guestList').innerHTML = `
       <div class="error-state">
-        <div class="icon">⚠️</div>
+        <div class="emoji">⚠️</div>
         <p><strong>Couldn't reach the sheet.</strong><br>${err.message}<br><br>
-        Check that your Apps Script is deployed with "Anyone" access and the URL and key are correct.</p>
+        Check that your Apps Script is deployed with "Anyone" access and your URL/key are correct.</p>
       </div>`;
   } finally {
     btn.disabled = false;
@@ -314,9 +290,10 @@ async function fetchData() {
   }
 }
 
+// ── Save a single check-in to the sheet ───────────────────
 async function saveCheckIn(guest) {
   pendingSaves++;
-  setSyncStatus('saving', 'Saving check-in…');
+  setSyncStatus('saving', `Saving check-in…`);
 
   try {
     const res = await fetch(APPS_SCRIPT_URL, {
@@ -331,6 +308,7 @@ async function saveCheckIn(guest) {
     });
     const data = await res.json();
     if (data.error) throw new Error(data.error);
+
   } catch (err) {
     console.error('Save failed:', err);
     showToast('⚠️ Save failed — check-in may not persist', true, 'error');
@@ -343,6 +321,7 @@ async function saveCheckIn(guest) {
   }
 }
 
+// ── Build performance tabs ─────────────────────────────────
 function buildPerfTabs() {
   const container = document.getElementById('perfTabs');
   container.innerHTML = '';
@@ -362,11 +341,13 @@ function buildPerfTabs() {
   });
 }
 
+// ── Search ─────────────────────────────────────────────────
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQuery = e.target.value.toLowerCase();
   render();
 });
 
+// ── Render ─────────────────────────────────────────────────
 function getPerfGuests()     { return guests.filter(g => g.performance === currentPerf); }
 function getFilteredGuests() {
   const lastName = name => name.trim().split(' ').slice(-1)[0].toLowerCase();
@@ -385,12 +366,12 @@ function render() {
   const intix = pg.filter(g => g.checked_in).reduce((s, g) => s + g.tickets, 0);
   const pct   = total > 0 ? Math.round((inn / total) * 100) : 0;
 
-  document.getElementById('statTotal').textContent    = total;
-  document.getElementById('statTickets').textContent  = tix;
-  document.getElementById('statIn').textContent       = inn;
-  document.getElementById('statLeft').textContent     = total - inn;
+  document.getElementById('statTotal').textContent   = total;
+  document.getElementById('statTickets').textContent = tix;
+  document.getElementById('statIn').textContent      = inn;
+  document.getElementById('statLeft').textContent    = total - inn;
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressPct').textContent  = `${pct}% arrived (${intix} of ${tix} tickets)`;
+  document.getElementById('progressPct').textContent = `${pct}% arrived (${intix} of ${tix} tickets)`;
 
   const filtered = getFilteredGuests();
   const list     = document.getElementById('guestList');
@@ -401,7 +382,7 @@ function render() {
     : `${total} guest${total !== 1 ? 's' : ''} · ${tix} tickets`;
 
   if (filtered.length === 0) {
-    list.innerHTML = `<div class="no-results"><div class="icon">🔍</div>No guests found matching "${searchQuery}"</div>`;
+    list.innerHTML = `<div class="no-results"><div class="emoji">🔍</div>No guests found matching "${searchQuery}"</div>`;
     return;
   }
 
@@ -424,6 +405,7 @@ function render() {
   });
 }
 
+// ── Toggle check-in ────────────────────────────────────────
 function toggleCheckIn(id) {
   const g = guests.find(x => x.id === id);
   g.checked_in  = !g.checked_in;
@@ -435,16 +417,18 @@ function toggleCheckIn(id) {
   else              showToast(`↩ ${capitalize(g.name)} check-in undone`, true);
 
   render();
-  saveCheckIn(g);
+  saveCheckIn(g); // write to sheet in background
 }
 
+// ── Sync status bar ────────────────────────────────────────
 function setSyncStatus(state, msg) {
   const dot  = document.getElementById('syncDot');
   const text = document.getElementById('syncText');
-  dot.className    = 'sync-dot' + (state !== 'loading' ? ' ' + state : '');
+  dot.className  = 'sync-dot' + (state !== 'loading' ? ' ' + state : '');
   text.textContent = msg;
 }
 
+// ── Helpers ────────────────────────────────────────────────
 function capitalize(name) {
   return name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 }
