@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuck Everlasting — Check-In</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #0e0d14;
+    --deep:       #13111e;
+    --layer:      #1c1929;
+    --border:     rgba(255,255,255,0.07);
+    --gold:       #d4a853;
+    --gold-light: #e8c97a;
+    --teal:       #3d9e8c;
+    --cream:      #f5f0e8;
+    --warm-white: #faf7f2;
+    --muted:      #a0a0b5;
+    --muted-dim:  rgba(160,160,181,0.5);
+    --checked:    #3d9e8c;
+    --checked-bg: rgba(61,158,140,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--ink); color: var(--warm-white); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+  /* Header */
+  .header {
+    background: var(--deep);
+    border-bottom: 1px solid rgba(212,168,83,0.25);
+    padding: 18px 28px; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+  .header-title { display: flex; align-items: center; gap: 16px; }
+  .header-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid rgba(212,168,83,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: 0.15em; color: var(--gold); line-height: 1;
+  }
+  .header h1 span {
+    display: block; font-family: 'Inter', sans-serif;
+    font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin-top: 4px;
+  }
+
+  .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  .btn {
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(212,168,83,0.1); border: 1px solid rgba(212,168,83,0.35);
+    color: var(--gold); font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600;
+    padding: 8px 16px; border-radius: 2px; cursor: pointer; transition: all 0.18s;
+    white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .btn:hover { background: rgba(212,168,83,0.18); border-color: var(--gold); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .refresh-icon { font-size: 1rem; display: inline-block; }
+  .refresh-icon.spinning { animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Sync bar */
+  .sync-bar {
+    background: var(--layer); border-bottom: 1px solid var(--border);
+    padding: 7px 28px; font-family: 'Inter', monospace; font-size: 0.68rem;
+    color: var(--muted); display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    letter-spacing: 0.04em;
+  }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #444; flex-shrink: 0; transition: background 0.3s; }
+  .sync-dot.live    { background: var(--teal); box-shadow: 0 0 0 2px rgba(61,158,140,0.25); }
+  .sync-dot.saving  { background: var(--gold); box-shadow: 0 0 0 2px rgba(212,168,83,0.25); animation: pulse 1s infinite; }
+  .sync-dot.error   { background: #e53935; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+  /* Performance tabs */
+  .perf-bar {
+    background: var(--deep); border-bottom: 1px solid var(--border);
+    padding: 14px 28px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .perf-label {
+    font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+  .perf-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .perf-tab {
+    background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--muted);
+    font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.05em; padding: 6px 14px; border-radius: 2px;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .perf-tab:hover { border-color: rgba(212,168,83,0.4); color: var(--gold-light); }
+  .perf-tab.active { background: var(--gold); color: var(--ink); border-color: var(--gold); font-weight: 600; }
+
+  /* Stats */
+  .stats-bar {
+    background: var(--layer); border-bottom: 1px solid var(--border);
+    padding: 14px 28px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--warm-white); }
+  .stat-num.checked   { color: var(--teal); }
+  .stat-num.remaining { color: var(--muted); }
+  .stat-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 500; }
+  .stat-divider { width: 1px; height: 36px; background: var(--border); }
+  .progress-wrap { flex: 1; min-width: 140px; }
+  .progress-bar-bg { background: rgba(255,255,255,0.07); border-radius: 99px; height: 6px; overflow: hidden; }
+  .progress-bar-fill { background: linear-gradient(90deg, var(--teal), var(--gold)); height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+  .progress-pct { font-size: 0.68rem; color: var(--muted); font-weight: 500; margin-top: 4px; letter-spacing: 0.04em; }
+
+  /* Search */
+  .search-bar { padding: 14px 28px; background: var(--deep); border-bottom: 1px solid var(--border); }
+  .search-input-wrap { position: relative; max-width: 480px; }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--muted); pointer-events: none; }
+  .search-input {
+    width: 100%; padding: 11px 14px 11px 40px;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
+    font-family: 'Inter', sans-serif; font-size: 0.95rem;
+    background: var(--layer); color: var(--warm-white); outline: none; transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: rgba(212,168,83,0.5); box-shadow: 0 0 0 3px rgba(212,168,83,0.08); }
+  .search-input::placeholder { color: var(--muted-dim); }
+
+  /* Guest list */
+  .guest-list-wrap { padding: 16px 28px 40px; }
+  .guest-count-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+  .guest-list { display: flex; flex-direction: column; gap: 6px; max-width: 720px; }
+
+  .guest-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--layer); border: 1px solid var(--border);
+    border-radius: 2px; padding: 14px 16px;
+    cursor: pointer; transition: all 0.15s; position: relative;
+  }
+  .guest-row:hover { border-color: rgba(212,168,83,0.3); box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+  .guest-row.checked-in { background: var(--checked-bg); border-color: rgba(61,158,140,0.3); }
+  .guest-row.checked-in:hover { border-color: var(--teal); }
+  .guest-row.syncing { opacity: 0.6; pointer-events: none; }
+
+  .check-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: transparent; display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; cursor: pointer; flex-shrink: 0; transition: all 0.18s; color: transparent;
+  }
+  .guest-row.checked-in .check-btn { background: var(--teal); border-color: var(--teal); color: white; font-size: 0.9rem; }
+  .check-btn:hover { border-color: var(--gold); }
+
+  .guest-info { flex: 1; min-width: 0; }
+  .guest-name { font-weight: 600; font-size: 0.97rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--warm-white); }
+  .guest-row.checked-in .guest-name { color: var(--teal); }
+  .guest-email { font-size: 0.7rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.02em; }
+
+  .ticket-badge {
+    background: rgba(212,168,83,0.08); border: 1px solid rgba(212,168,83,0.2);
+    border-radius: 2px; padding: 4px 10px; font-size: 0.75rem; font-weight: 600;
+    color: var(--gold); white-space: nowrap; flex-shrink: 0; letter-spacing: 0.04em;
+  }
+  .guest-row.checked-in .ticket-badge { background: rgba(61,158,140,0.1); border-color: rgba(61,158,140,0.3); color: var(--teal); }
+  .checked-time { font-size: 0.65rem; color: var(--teal); white-space: nowrap; flex-shrink: 0; letter-spacing: 0.03em; }
+
+  /* States */
+  .loading-state, .error-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 20px; gap: 12px; color: var(--muted);
+  }
+  .loading-state .icon, .error-state .icon { font-size: 2.5rem; }
+  .error-state { color: #e57373; }
+  .error-state p { font-size: 0.9rem; max-width: 400px; text-align: center; line-height: 1.6; }
+  .no-results { text-align: center; padding: 48px 20px; color: var(--muted); font-size: 0.95rem; }
+  .no-results .icon { font-size: 2.5rem; margin-bottom: 8px; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--teal); color: white; padding: 12px 24px;
+    border-radius: 2px; font-weight: 600; font-size: 0.88rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5); transition: transform 0.3s ease;
+    z-index: 999; white-space: nowrap; letter-spacing: 0.04em;
+  }
+  .toast.show  { transform: translateX(-50%) translateY(0); }
+  .toast.undo  { background: var(--layer); border: 1px solid var(--border); }
+  .toast.error { background: #c0392b; }
+
+  @media (max-width: 600px) {
+    .header, .perf-bar, .stats-bar, .search-bar, .guest-list-wrap, .sync-bar { padding-left: 16px; padding-right: 16px; }
+    .guest-email { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-title">
+    <div class="header-icon">🌲</div>
+    <h1>Tuck Everlasting <span>Guest Check-In Dashboard</span></h1>
+  </div>
+  <div class="header-actions">
+    <button class="btn" id="refreshBtn" onclick="fetchData()">
+      <span class="refresh-icon" id="refreshIcon">↻</span> Refresh from Sheet
+    </button>
+  </div>
+</div>
+
+<!-- Sync status bar -->
+<div class="sync-bar">
+  <span class="sync-dot" id="syncDot"></span>
+  <span id="syncText">Not yet loaded — click Refresh to load guests</span>
+</div>
+
+<!-- Performance tabs -->
+<div class="perf-bar">
+  <span class="perf-label">Performance</span>
+  <div class="perf-tabs" id="perfTabs"><span style="font-size:0.82rem;color:var(--muted);font-style:italic;">Loading…</span></div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat"><span class="stat-num" id="statTotal">—</span><span class="stat-label">Total Guests</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num" id="statTickets">—</span><span class="stat-label">Total Tickets</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num checked" id="statIn">0</span><span class="stat-label">Checked In</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num remaining" id="statLeft">—</span><span class="stat-label">Remaining</span></div>
+  <div class="stat-divider"></div>
+  <div class="progress-wrap stat">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-pct" id="progressPct">0% arrived</div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="search-bar">
+  <div class="search-input-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search guest name…" autocomplete="off" />
+  </div>
+</div>
+
+<!-- Guest list -->
+<div class="guest-list-wrap">
+  <div class="guest-count-label" id="guestCountLabel"></div>
+  <div class="guest-list" id="guestList">
+    <div class="loading-state"><div class="icon">🌲</div><div>Click "Refresh from Sheet" to load guests.</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIGURATION
+// ══════════════════════════════════════════════
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyyVY6jUeEgRBX39x49Dg1vRZ51LKEPyOOwFFY6PwZ-Y4mXCe1hCLD5OVS7qjF9KZ4mXQ/exec";
+const SECRET_KEY      = "tuckeverlasting2026";
+// ══════════════════════════════════════════════
+
+let guests       = [];
+let performances = [];
+let currentPerf  = null;
+let searchQuery  = '';
+let toastTimer   = null;
+let dataLoaded   = false;
+let pendingSaves = 0;
+
+async function fetchData() {
+  const btn  = document.getElementById('refreshBtn');
+  const icon = document.getElementById('refreshIcon');
+  btn.disabled = true;
+  icon.classList.add('spinning');
+  setSyncStatus('loading', 'Fetching from Google Sheet…');
+
+  try {
+    const res  = await fetch(`${APPS_SCRIPT_URL}?key=${encodeURIComponent(SECRET_KEY)}`);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    guests       = data.guests.map((g, i) => ({ ...g, id: i }));
+    performances = data.performances;
+
+    if (!currentPerf || !performances.includes(currentPerf)) {
+      currentPerf = performances[0] || null;
+    }
+
+    dataLoaded = true;
+    buildPerfTabs();
+    render();
+
+    const t = new Date(data.fetchedAt);
+    setSyncStatus('live', `Synced at ${t.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})} · ${guests.length} entries`);
+    showToast(`✓ Loaded ${guests.length} guest entries`, false);
+
+  } catch (err) {
+    console.error(err);
+    setSyncStatus('error', `Error: ${err.message}`);
+    showToast('❌ Failed to load from sheet', true, 'error');
+    document.getElementById('guestList').innerHTML = `
+      <div class="error-state">
+        <div class="icon">⚠️</div>
+        <p><strong>Couldn't reach the sheet.</strong><br>${err.message}<br><br>
+        Check that your Apps Script is deployed with "Anyone" access and the URL and key are correct.</p>
+      </div>`;
+  } finally {
+    btn.disabled = false;
+    icon.classList.remove('spinning');
+  }
+}
+
+async function saveCheckIn(guest) {
+  pendingSaves++;
+  setSyncStatus('saving', 'Saving check-in…');
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        key:         SECRET_KEY,
+        name:        guest.name,
+        performance: guest.performance,
+        checked_in:  guest.checked_in,
+        checkedTime: guest.checkedTime || ''
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+  } catch (err) {
+    console.error('Save failed:', err);
+    showToast('⚠️ Save failed — check-in may not persist', true, 'error');
+  } finally {
+    pendingSaves--;
+    if (pendingSaves === 0) {
+      const t = new Date();
+      setSyncStatus('live', `Last saved at ${t.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})}`);
+    }
+  }
+}
+
+function buildPerfTabs() {
+  const container = document.getElementById('perfTabs');
+  container.innerHTML = '';
+  performances.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'perf-tab' + (p === currentPerf ? ' active' : '');
+    btn.textContent = p;
+    btn.addEventListener('click', () => {
+      currentPerf = p;
+      document.querySelectorAll('.perf-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      render();
+    });
+    container.appendChild(btn);
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase();
+  render();
+});
+
+function getPerfGuests()     { return guests.filter(g => g.performance === currentPerf); }
+function getFilteredGuests() {
+  const lastName = name => name.trim().split(' ').slice(-1)[0].toLowerCase();
+  return getPerfGuests()
+    .filter(g => !searchQuery || g.name.toLowerCase().includes(searchQuery))
+    .sort((a, b) => lastName(a.name).localeCompare(lastName(b.name)));
+}
+
+function render() {
+  if (!dataLoaded || !currentPerf) return;
+
+  const pg    = getPerfGuests();
+  const total = pg.length;
+  const tix   = pg.reduce((s, g) => s + g.tickets, 0);
+  const inn   = pg.filter(g => g.checked_in).length;
+  const intix = pg.filter(g => g.checked_in).reduce((s, g) => s + g.tickets, 0);
+  const pct   = total > 0 ? Math.round((inn / total) * 100) : 0;
+
+  document.getElementById('statTotal').textContent    = total;
+  document.getElementById('statTickets').textContent  = tix;
+  document.getElementById('statIn').textContent       = inn;
+  document.getElementById('statLeft').textContent     = total - inn;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent  = `${pct}% arrived (${intix} of ${tix} tickets)`;
+
+  const filtered = getFilteredGuests();
+  const list     = document.getElementById('guestList');
+  const label    = document.getElementById('guestCountLabel');
+
+  label.textContent = searchQuery
+    ? `${filtered.length} result${filtered.length !== 1 ? 's' : ''} for "${searchQuery}"`
+    : `${total} guest${total !== 1 ? 's' : ''} · ${tix} tickets`;
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="no-results"><div class="icon">🔍</div>No guests found matching "${searchQuery}"</div>`;
+    return;
+  }
+
+  list.innerHTML = '';
+  filtered.forEach(g => {
+    const row = document.createElement('div');
+    row.className = 'guest-row' + (g.checked_in ? ' checked-in' : '');
+    row.innerHTML = `
+      <button class="check-btn" title="${g.checked_in ? 'Undo check-in' : 'Check in'}">✓</button>
+      <div class="guest-info">
+        <div class="guest-name">${capitalize(g.name)}</div>
+        <div class="guest-email">${g.email}</div>
+      </div>
+      <span class="ticket-badge">🎟 ${g.tickets} ticket${g.tickets !== 1 ? 's' : ''}</span>
+      ${g.checked_in && g.checkedTime ? `<span class="checked-time">${g.checkedTime}</span>` : ''}
+    `;
+    row.querySelector('.check-btn').addEventListener('click', e => { e.stopPropagation(); toggleCheckIn(g.id); });
+    row.addEventListener('click', () => toggleCheckIn(g.id));
+    list.appendChild(row);
+  });
+}
+
+function toggleCheckIn(id) {
+  const g = guests.find(x => x.id === id);
+  g.checked_in  = !g.checked_in;
+  g.checkedTime = g.checked_in
+    ? new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    : null;
+
+  if (g.checked_in) showToast(`✓ ${capitalize(g.name)} checked in — ${g.tickets} ticket${g.tickets !== 1 ? 's' : ''}`, false);
+  else              showToast(`↩ ${capitalize(g.name)} check-in undone`, true);
+
+  render();
+  saveCheckIn(g);
+}
+
+function setSyncStatus(state, msg) {
+  const dot  = document.getElementById('syncDot');
+  const text = document.getElementById('syncText');
+  dot.className    = 'sync-dot' + (state !== 'loading' ? ' ' + state : '');
+  text.textContent = msg;
+}
+
+function capitalize(name) {
+  return name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function showToast(msg, isUndo, type) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast show' + (type === 'error' ? ' error' : isUndo ? ' undo' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
