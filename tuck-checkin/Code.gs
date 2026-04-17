@@ -13,7 +13,7 @@ const CHECKIN_SHEET_NAME = "CheckIns"; // Auto-created — don't change
 const COL_FIRSTNAME = 0; // Column A
 const COL_LASTNAME  = 1; // Column B
 const COL_EMAIL     = 2; // Column C
-const COL_TICKETS   = 3; // Column D
+const COL_TICKETS   = 4; // Column E — "Choose your Performance: Products"
 
 // ── GET: fetch guests + current check-in state ──────────────
 function doGet(e) {
