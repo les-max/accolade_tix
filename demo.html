@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rochelle, Rochelle — Guest Check-In Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #0e0d14;
+    --deep:       #13111e;
+    --layer:      #1c1929;
+    --border:     rgba(255,255,255,0.07);
+    --gold:       #d4a853;
+    --gold-light: #e8c97a;
+    --teal:       #3d9e8c;
+    --cream:      #f5f0e8;
+    --warm-white: #faf7f2;
+    --muted:      #a0a0b5;
+    --muted-dim:  rgba(160,160,181,0.5);
+    --checked:    #3d9e8c;
+    --checked-bg: rgba(61,158,140,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--ink); color: var(--warm-white); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+  /* Header */
+  .header {
+    background: var(--deep);
+    border-bottom: 1px solid rgba(212,168,83,0.25);
+    padding: 18px 28px; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+  .header-title { display: flex; align-items: center; gap: 16px; }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: 0.15em; color: var(--gold); line-height: 1;
+  }
+  .header h1 span {
+    display: block; font-family: 'Inter', sans-serif;
+    font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin-top: 4px;
+  }
+
+  .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  .demo-badge {
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(212,168,83,0.08); border: 1px solid rgba(212,168,83,0.2);
+    color: var(--muted); font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500;
+    padding: 8px 16px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .demo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); opacity: 0.6; }
+
+  /* Sync bar */
+  .sync-bar {
+    background: var(--layer); border-bottom: 1px solid var(--border);
+    padding: 7px 28px; font-family: 'Inter', monospace; font-size: 0.68rem;
+    color: var(--muted); display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    letter-spacing: 0.04em;
+  }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #444; flex-shrink: 0; transition: background 0.3s; }
+  .sync-dot.live    { background: var(--teal); box-shadow: 0 0 0 2px rgba(61,158,140,0.25); }
+  .sync-dot.saving  { background: var(--gold); box-shadow: 0 0 0 2px rgba(212,168,83,0.25); animation: pulse 1s infinite; }
+  .sync-dot.error   { background: #e53935; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+  /* Performance tabs */
+  .perf-bar {
+    background: var(--deep); border-bottom: 1px solid var(--border);
+    padding: 14px 28px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .perf-label {
+    font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+  .perf-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .perf-tab {
+    background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--muted);
+    font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.05em; padding: 6px 14px; border-radius: 2px;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .perf-tab:hover { border-color: rgba(212,168,83,0.4); color: var(--gold-light); }
+  .perf-tab.active { background: var(--gold); color: var(--ink); border-color: var(--gold); font-weight: 600; }
+
+  /* Stats */
+  .stats-bar {
+    background: var(--layer); border-bottom: 1px solid var(--border);
+    padding: 14px 28px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--warm-white); }
+  .stat-num.checked   { color: var(--teal); }
+  .stat-num.remaining { color: var(--muted); }
+  .stat-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 500; }
+  .stat-divider { width: 1px; height: 36px; background: var(--border); }
+  .progress-wrap { flex: 1; min-width: 140px; }
+  .progress-bar-bg { background: rgba(255,255,255,0.07); border-radius: 99px; height: 6px; overflow: hidden; }
+  .progress-bar-fill { background: linear-gradient(90deg, var(--teal), var(--gold)); height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+  .progress-pct { font-size: 0.68rem; color: var(--muted); font-weight: 500; margin-top: 4px; letter-spacing: 0.04em; }
+
+  /* Search */
+  .search-bar { padding: 14px 28px; background: var(--deep); border-bottom: 1px solid var(--border); }
+  .search-input-wrap { position: relative; max-width: 480px; }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--muted); pointer-events: none; }
+  .search-input {
+    width: 100%; padding: 11px 14px 11px 40px;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
+    font-family: 'Inter', sans-serif; font-size: 0.95rem;
+    background: var(--layer); color: var(--warm-white); outline: none; transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: rgba(212,168,83,0.5); box-shadow: 0 0 0 3px rgba(212,168,83,0.08); }
+  .search-input::placeholder { color: var(--muted-dim); }
+
+  /* Guest list */
+  .guest-list-wrap { padding: 16px 28px 40px; }
+  .guest-count-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+  .guest-list { display: flex; flex-direction: column; gap: 6px; max-width: 720px; }
+
+  .guest-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--layer); border: 1px solid var(--border);
+    border-radius: 2px; padding: 14px 16px;
+    cursor: pointer; transition: all 0.15s; position: relative;
+  }
+  .guest-row:hover { border-color: rgba(212,168,83,0.3); box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+  .guest-row.checked-in { background: var(--checked-bg); border-color: rgba(61,158,140,0.3); }
+  .guest-row.checked-in:hover { border-color: var(--teal); }
+
+  .check-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: transparent; display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; cursor: pointer; flex-shrink: 0; transition: all 0.18s; color: transparent;
+  }
+  .guest-row.checked-in .check-btn { background: var(--teal); border-color: var(--teal); color: white; font-size: 0.9rem; }
+  .check-btn:hover { border-color: var(--gold); }
+
+  .guest-info { flex: 1; min-width: 0; }
+  .guest-name { font-weight: 600; font-size: 0.97rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--warm-white); }
+  .guest-row.checked-in .guest-name { color: var(--teal); }
+  .guest-email { font-size: 0.7rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.02em; }
+
+  .ticket-badge {
+    background: rgba(212,168,83,0.08); border: 1px solid rgba(212,168,83,0.2);
+    border-radius: 2px; padding: 4px 10px; font-size: 0.75rem; font-weight: 600;
+    color: var(--gold); white-space: nowrap; flex-shrink: 0; letter-spacing: 0.04em;
+  }
+  .guest-row.checked-in .ticket-badge { background: rgba(61,158,140,0.1); border-color: rgba(61,158,140,0.3); color: var(--teal); }
+  .checked-time { font-size: 0.65rem; color: var(--teal); white-space: nowrap; flex-shrink: 0; letter-spacing: 0.03em; }
+
+  /* States */
+  .no-results { text-align: center; padding: 48px 20px; color: var(--muted); font-size: 0.95rem; }
+  .no-results .icon { font-size: 2.5rem; margin-bottom: 8px; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--teal); color: white; padding: 12px 24px;
+    border-radius: 2px; font-weight: 600; font-size: 0.88rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5); transition: transform 0.3s ease;
+    z-index: 999; white-space: nowrap; letter-spacing: 0.04em;
+  }
+  .toast.show  { transform: translateX(-50%) translateY(0); }
+  .toast.undo  { background: var(--layer); border: 1px solid var(--border); }
+
+  @media (max-width: 600px) {
+    .header, .perf-bar, .stats-bar, .search-bar, .guest-list-wrap, .sync-bar { padding-left: 16px; padding-right: 16px; }
+    .guest-email { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-title">
+    <h1>Rochelle, Rochelle <span>Guest Check-In Dashboard</span></h1>
+  </div>
+  <div class="header-actions">
+    <div class="demo-badge"><span class="demo-dot"></span>Demo Mode</div>
+  </div>
+</div>
+
+<!-- Sync status bar -->
+<div class="sync-bar">
+  <span class="sync-dot live" id="syncDot"></span>
+  <span id="syncText">Demo data loaded · 100 entries</span>
+</div>
+
+<!-- Performance tabs -->
+<div class="perf-bar">
+  <span class="perf-label">Performance</span>
+  <div class="perf-tabs" id="perfTabs"></div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat"><span class="stat-num" id="statTotal">—</span><span class="stat-label">Total Guests</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num" id="statTickets">—</span><span class="stat-label">Total Tickets</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num checked" id="statIn">0</span><span class="stat-label">Checked In</span></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><span class="stat-num remaining" id="statLeft">—</span><span class="stat-label">Remaining</span></div>
+  <div class="stat-divider"></div>
+  <div class="progress-wrap stat">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-pct" id="progressPct">0% arrived</div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="search-bar">
+  <div class="search-input-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search guest name…" autocomplete="off" />
+  </div>
+</div>
+
+<!-- Guest list -->
+<div class="guest-list-wrap">
+  <div class="guest-count-label" id="guestCountLabel"></div>
+  <div class="guest-list" id="guestList"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DEMO_DATA = {
+  performances: [
+    "Thu May 15 · 7:00 PM",
+    "Fri May 16 · 7:00 PM",
+    "Sat May 17 · 2:00 PM",
+    "Sat May 17 · 7:30 PM"
+  ],
+  guests: [
+    // Thu May 15 · 7:00 PM — 25 guests, 16 checked in
+    { name: "David Chu",          email: "dchu@gmail.com",              tickets: 1, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "6:58 PM" },
+    { name: "Liam Brannigan",     email: "lbrannigan@outlook.com",      tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "6:55 PM" },
+    { name: "Wendy Coleman",      email: "wcoleman@yahoo.com",          tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "6:59 PM" },
+    { name: "Henry Walsh",        email: "hwalsh@gmail.com",            tickets: 1, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:00 PM" },
+    { name: "Yvonne Crawford",    email: "ycrawford@gmail.com",         tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:01 PM" },
+    { name: "Brandon Scott",      email: "bscott@outlook.com",          tickets: 4, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:03 PM" },
+    { name: "Quinn Alvarez",      email: "qalvarez@yahoo.com",          tickets: 1, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:03 PM" },
+    { name: "Grace Kim",          email: "gkim@icloud.com",             tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:05 PM" },
+    { name: "Teresa Lim",         email: "tlim@gmail.com",              tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:07 PM" },
+    { name: "Amanda Reyes",       email: "areyes@gmail.com",            tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:08 PM" },
+    { name: "Nathan Ford",        email: "nford@gmail.com",             tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:08 PM" },
+    { name: "Carol Thornton",     email: "carol.thornton@yahoo.com",    tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:11 PM" },
+    { name: "Xavier Martin",      email: "xmartin@gmail.com",           tickets: 1, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:14 PM" },
+    { name: "Elena Vasquez",      email: "evasquez@hotmail.com",        tickets: 3, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:15 PM" },
+    { name: "Olivia Chambers",    email: "ochambers@icloud.com",        tickets: 3, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:16 PM" },
+    { name: "Rachel Hoffman",     email: "rhoffman@gmail.com",          tickets: 4, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:19 PM" },
+    { name: "Ursula Petrov",      email: "upetrov@hotmail.com",         tickets: 1, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:22 PM" },
+    { name: "Frank Morrison",     email: "fmorrison@gmail.com",         tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "James Park",         email: "jpark@gmail.com",             tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Karen Okafor",       email: "kokafor@gmail.com",           tickets: 3, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:12 PM" },
+    { name: "Maria Santos",       email: "msantos@gmail.com",           tickets: 1, performance: "Thu May 15 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Patrick Doyle",      email: "pdoyle@gmail.com",            tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Steven Burke",       email: "sburke@outlook.com",          tickets: 2, performance: "Thu May 15 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Victor Huang",       email: "vhuang@gmail.com",            tickets: 3, performance: "Thu May 15 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Isabel Nguyen",      email: "inguyen@yahoo.com",           tickets: 4, performance: "Thu May 15 · 7:00 PM", checked_in: true,  checkedTime: "7:20 PM" },
+
+    // Fri May 16 · 7:00 PM — 25 guests, 11 checked in
+    { name: "Aaron Mitchell",     email: "amitchell@gmail.com",         tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "6:55 PM" },
+    { name: "Oscar Fleming",      email: "ofleming@gmail.com",          tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "6:53 PM" },
+    { name: "Uma Sterling",       email: "usterling@gmail.com",         tickets: 1, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "6:57 PM" },
+    { name: "George Patel",       email: "gpatel@gmail.com",            tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "6:58 PM" },
+    { name: "Thomas Reid",        email: "treid@gmail.com",             tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "7:01 PM" },
+    { name: "Carlos Rivera",      email: "crivera@gmail.com",           tickets: 3, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "7:02 PM" },
+    { name: "Ian Fitzgerald",     email: "ifitzgerald@gmail.com",       tickets: 3, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "7:04 PM" },
+    { name: "Eric Johansson",     email: "ejohansson@gmail.com",        tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "7:08 PM" },
+    { name: "Ryan Callahan",      email: "rcallahan@gmail.com",         tickets: 1, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "7:09 PM" },
+    { name: "Kevin Marsh",        email: "kmarsh@outlook.com",          tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "7:11 PM" },
+    { name: "Marcus Webb",        email: "mwebb@gmail.com",             tickets: 4, performance: "Fri May 16 · 7:00 PM", checked_in: true,  checkedTime: "7:06 PM" },
+    { name: "Beth Larson",        email: "blarson@outlook.com",         tickets: 1, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Dana Whitfield",     email: "dwhitfield@yahoo.com",        tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Fiona Blake",        email: "fblake@icloud.com",           tickets: 4, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Hannah Owens",       email: "howens@yahoo.com",            tickets: 1, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Jessica Nwosu",      email: "jnwosu@gmail.com",            tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Laura Chen",         email: "lchen@gmail.com",             tickets: 1, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Nina Kowalski",      email: "nkowalski@hotmail.com",       tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Priya Sharma",       email: "psharma@yahoo.com",           tickets: 3, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Sophia Delgado",     email: "sdelgado@icloud.com",         tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Valerie Stone",      email: "vstone@outlook.com",          tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "William Nakamura",   email: "wnakamura@gmail.com",         tickets: 3, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Xena Cross",         email: "xcross@yahoo.com",            tickets: 1, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Yasmine Osei",       email: "yosei@gmail.com",             tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+    { name: "Zachary Hammond",    email: "zhammond@gmail.com",          tickets: 2, performance: "Fri May 16 · 7:00 PM", checked_in: false, checkedTime: null },
+
+    // Sat May 17 · 2:00 PM — 25 guests, 13 checked in
+    { name: "Emma Thornton",      email: "ethornton@icloud.com",        tickets: 3, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:44 PM" },
+    { name: "Noah Chang",         email: "nchang@gmail.com",            tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:43 PM" },
+    { name: "Iris Papadopoulos",  email: "ipapadopoulos@yahoo.com",     tickets: 4, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:46 PM" },
+    { name: "Wesley Grant",       email: "wgrant@gmail.com",            tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:47 PM" },
+    { name: "Alicia Burns",       email: "aburns@gmail.com",            tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:48 PM" },
+    { name: "Samuel Ingram",      email: "singram@gmail.com",           tickets: 4, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:50 PM" },
+    { name: "Joel Hawkins",       email: "jhawkins@gmail.com",          tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:51 PM" },
+    { name: "Benjamin Cross",     email: "bcross@outlook.com",          tickets: 4, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:52 PM" },
+    { name: "Ulric Bond",         email: "ubond@outlook.com",           tickets: 1, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:53 PM" },
+    { name: "Derek Olsen",        email: "dolsen@gmail.com",            tickets: 1, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:55 PM" },
+    { name: "Zach Porter",        email: "zporter@gmail.com",           tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:56 PM" },
+    { name: "Luis Castillo",      email: "lcastillo@gmail.com",         tickets: 3, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:57 PM" },
+    { name: "Gina Espinoza",      email: "gespinoza@hotmail.com",       tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: true,  checkedTime: "1:58 PM" },
+    { name: "Christine Yates",    email: "cyates@yahoo.com",            tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Felix Rowan",        email: "frowan@gmail.com",            tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Harold Kim",         email: "hkim@gmail.com",              tickets: 1, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Kendra Fox",         email: "kfox@outlook.com",            tickets: 1, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Michelle Bauer",     email: "mbauer@yahoo.com",            tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Penelope Marsh",     email: "pmarsh@icloud.com",           tickets: 3, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Quinton Drake",      email: "qdrake@gmail.com",            tickets: 1, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Rosa Flores",        email: "rflores@yahoo.com",           tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Tina Ortega",        email: "tortega@gmail.com",           tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Veronica Hayes",     email: "vhayes@gmail.com",            tickets: 3, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Xiomara Bell",       email: "xbell@yahoo.com",             tickets: 1, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+    { name: "Yolanda Diaz",       email: "ydiaz@gmail.com",             tickets: 2, performance: "Sat May 17 · 2:00 PM", checked_in: false, checkedTime: null },
+
+    // Sat May 17 · 7:30 PM — 25 guests, 4 checked in
+    { name: "Michael Crane",      email: "mcrane@gmail.com",            tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: true,  checkedTime: "7:18 PM" },
+    { name: "Ursula Malone",      email: "umalone@gmail.com",           tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: true,  checkedTime: "7:21 PM" },
+    { name: "Albert Novak",       email: "anovak@gmail.com",            tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: true,  checkedTime: "7:22 PM" },
+    { name: "Eliot Sharma",       email: "esharma@gmail.com",           tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: true,  checkedTime: "7:25 PM" },
+    { name: "Beatrice Walsh",     email: "bwalsh@outlook.com",          tickets: 1, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Cameron Fox",        email: "cfox@gmail.com",              tickets: 3, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Diane Pearson",      email: "dpearson@yahoo.com",          tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Francesca Monroe",   email: "fmonroe@icloud.com",          tickets: 4, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Glen Hopkins",       email: "ghopkins@gmail.com",          tickets: 1, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Holly Yamamoto",     email: "hyamamoto@hotmail.com",       tickets: 3, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Ignacio Reeves",     email: "ireeves@gmail.com",           tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Jasmine Cole",       email: "jcole@yahoo.com",             tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Kirk Bradford",      email: "kbradford@gmail.com",         tickets: 1, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Leah Sutton",        email: "lsutton@outlook.com",         tickets: 4, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Naomi Fields",       email: "nfields@yahoo.com",           tickets: 1, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Oliver Kent",        email: "okent@gmail.com",             tickets: 3, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Patricia Dunn",      email: "pdunn@icloud.com",            tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Raul Vargas",        email: "rvargas@gmail.com",           tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Serena Powell",      email: "spowell@gmail.com",           tickets: 1, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Travis Bowen",       email: "tbowen@outlook.com",          tickets: 4, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Victor Cross",       email: "vcross@gmail.com",            tickets: 3, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Wanda Carr",         email: "wcarr@yahoo.com",             tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Xander Pope",        email: "xpope@gmail.com",             tickets: 1, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Yara Simmons",       email: "ysimmons@gmail.com",          tickets: 2, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null },
+    { name: "Zoe Harrington",     email: "zharrington@gmail.com",       tickets: 3, performance: "Sat May 17 · 7:30 PM", checked_in: false, checkedTime: null }
+  ]
+};
+
+let guests       = [];
+let performances = [];
+let currentPerf  = null;
+let searchQuery  = '';
+let toastTimer   = null;
+
+function loadDemoData() {
+  guests       = DEMO_DATA.guests.map((g, i) => ({ ...g, id: i }));
+  performances = DEMO_DATA.performances;
+  currentPerf  = performances[0];
+  buildPerfTabs();
+  render();
+}
+
+function saveCheckIn() { /* demo mode — no persistence */ }
+
+function buildPerfTabs() {
+  const container = document.getElementById('perfTabs');
+  container.innerHTML = '';
+  performances.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'perf-tab' + (p === currentPerf ? ' active' : '');
+    btn.textContent = p;
+    btn.addEventListener('click', () => {
+      currentPerf = p;
+      document.querySelectorAll('.perf-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      render();
+    });
+    container.appendChild(btn);
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase();
+  render();
+});
+
+function getPerfGuests()     { return guests.filter(g => g.performance === currentPerf); }
+function getFilteredGuests() {
+  const lastName = name => name.trim().split(' ').slice(-1)[0].toLowerCase();
+  return getPerfGuests()
+    .filter(g => !searchQuery || g.name.toLowerCase().includes(searchQuery))
+    .sort((a, b) => lastName(a.name).localeCompare(lastName(b.name)));
+}
+
+function render() {
+  const pg    = getPerfGuests();
+  const total = pg.length;
+  const tix   = pg.reduce((s, g) => s + g.tickets, 0);
+  const inn   = pg.filter(g => g.checked_in).length;
+  const intix = pg.filter(g => g.checked_in).reduce((s, g) => s + g.tickets, 0);
+  const pct   = total > 0 ? Math.round((inn / total) * 100) : 0;
+
+  document.getElementById('statTotal').textContent    = total;
+  document.getElementById('statTickets').textContent  = tix;
+  document.getElementById('statIn').textContent       = inn;
+  document.getElementById('statLeft').textContent     = total - inn;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent  = `${pct}% arrived (${intix} of ${tix} tickets)`;
+
+  const filtered = getFilteredGuests();
+  const list     = document.getElementById('guestList');
+  const label    = document.getElementById('guestCountLabel');
+
+  label.textContent = searchQuery
+    ? `${filtered.length} result${filtered.length !== 1 ? 's' : ''} for "${searchQuery}"`
+    : `${total} guest${total !== 1 ? 's' : ''} · ${tix} tickets`;
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="no-results"><div class="icon">🔍</div>No guests found matching "${searchQuery}"</div>`;
+    return;
+  }
+
+  list.innerHTML = '';
+  filtered.forEach(g => {
+    const row = document.createElement('div');
+    row.className = 'guest-row' + (g.checked_in ? ' checked-in' : '');
+    row.innerHTML = `
+      <button class="check-btn" title="${g.checked_in ? 'Undo check-in' : 'Check in'}">✓</button>
+      <div class="guest-info">
+        <div class="guest-name">${capitalize(g.name)}</div>
+        <div class="guest-email">${g.email}</div>
+      </div>
+      <span class="ticket-badge">🎟 ${g.tickets} ticket${g.tickets !== 1 ? 's' : ''}</span>
+      ${g.checked_in && g.checkedTime ? `<span class="checked-time">${g.checkedTime}</span>` : ''}
+    `;
+    row.querySelector('.check-btn').addEventListener('click', e => { e.stopPropagation(); toggleCheckIn(g.id); });
+    row.addEventListener('click', () => toggleCheckIn(g.id));
+    list.appendChild(row);
+  });
+}
+
+function toggleCheckIn(id) {
+  const g = guests.find(x => x.id === id);
+  g.checked_in  = !g.checked_in;
+  g.checkedTime = g.checked_in
+    ? new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    : null;
+
+  if (g.checked_in) showToast(`✓ ${capitalize(g.name)} checked in — ${g.tickets} ticket${g.tickets !== 1 ? 's' : ''}`, false);
+  else              showToast(`↩ ${capitalize(g.name)} check-in undone`, true);
+
+  render();
+  saveCheckIn();
+}
+
+function capitalize(name) {
+  return name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function showToast(msg, isUndo) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast show' + (isUndo ? ' undo' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+document.addEventListener('DOMContentLoaded', loadDemoData);
+</script>
+</body>
+</html>
